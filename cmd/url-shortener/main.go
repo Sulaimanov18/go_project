@@ -1,17 +1,25 @@
 package main
 
 import (
-	"fmt"
-
-
-	"github.com/yourusername/url-shortener/internal/config"
-
+	"go_project/internal/config"
+	"log/slog"
+	"os"
 )
 
+const (
+	envLocal = "local"
+	envDev   = "dev"
+	envProd  = "prod"
+)
 func main() {
 	cfg := config.MustLoad()
-	fmt.Printf(cfg)
 
+	log := setupLogger(cfg.Env)
+
+	log.Info("Starting URL Shortener Service")
+	log.Debug("debug messages are enabled")
+
+	
 
 
  // TODO : Init config 
@@ -20,4 +28,28 @@ func main() {
  // TODO : Start server
  // TODO : Handle graceful shutdown
  
+}
+
+
+
+func setupLogger(env string) *slog.Logger {
+	var log *slog.Logger
+
+	switch env {
+	case envLocal:
+		log = slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+			Level: slog.LevelDebug,
+		}))
+
+	case envDev:
+		log = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+			Level: slog.LevelDebug,
+		}))
+	case envProd:
+		log = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+			Level: slog.LevelInfo,
+		}))
+	}
+
+	return log
 }
