@@ -1,0 +1,6 @@
+env: "local" #local, dev, prod
+storaage_ppath: "./storage/sorage.dbt"
+hhtp_server:
+  address: "loacalhost:7070"
+  timeout: 4s
+  idle_timeout: 60s
