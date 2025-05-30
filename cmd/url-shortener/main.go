@@ -17,7 +17,7 @@ func main() {
 	log := setupLogger(cfg.Env)
 
 	log.Info("Starting URL Shortener Service")
-	log.Debug("debug messages are enabled")
+	log.Debug("debug messages are enabled") 
 
 	
 
